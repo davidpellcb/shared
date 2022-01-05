@@ -29,7 +29,7 @@ jobs:
       - id: list-repo-contents
         run: ls
       - id: generate-app-token
-        run: echo "::set-output name=token::$(bin/appauth-linux)"
+        run: echo "::set-output name=token::$($GITHUB_ACTION_PATH/bin/appauth-linux)"
         env:
           APP_ID: ${{ inputs.app_id }}
           INSTALLATION_ID: ${{ inputs.installation_id }}
