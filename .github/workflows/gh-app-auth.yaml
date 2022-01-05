@@ -26,7 +26,7 @@ jobs:
       dummy: ${{ steps.dummy.outputs.dummy }}
     steps:
       - uses: actions/checkout@master
-      - id: list contents
+      - id: list-repo-contents
         run: ls
       - id: generate-app-token
         run: echo "::set-output name=token::$(bin/appauth-linux)"
