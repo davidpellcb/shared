@@ -12,6 +12,9 @@ on:
       private_key:
         required: true
     outputs:
+      dummy:
+        description: "API token to use when authenticating as your GitHub app"
+        value: ${{ jobs.generate-app-token.outputs.dummy }}
       token:
         description: "API token to use when authenticating as your GitHub app"
         value: ${{ jobs.generate-app-token.outputs.token }}
@@ -20,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       token: ${{ steps.generate-app-token.outputs.token }}
+      dummy: ${{ steps.dummy.outputs.dummy }}
     steps:
       - uses: actions/checkout@master
       - id: generate-app-token
@@ -28,3 +32,5 @@ jobs:
           APP_ID: ${{ inputs.app_id }}
           INSTALLATION_ID: ${{ inputs.installation_id }}
           PRIVATE_KEY: ${{ inputs.private_key }}
+      - id: dummy
+        run: echo "::set-output name=dummy::dummy"
