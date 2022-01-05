@@ -1,40 +1,32 @@
-name: Generate an API token for a GitHub App
-on:
-  workflow_call:
-    inputs:
-      app_id:
-        required: true
-        type: string
-      installation_id:
-        required: true
-        type: string
-    secrets:
-      private_key:
-        required: true
-    outputs:
-      dummy:
-        description: "API token to use when authenticating as your GitHub app"
-        value: ${{ jobs.generate-app-token.outputs.dummy }}
-      token:
-        description: "API token to use when authenticating as your GitHub app"
-        value: ${{ jobs.generate-app-token.outputs.token }}
-jobs:
-  generate-app-token:
-    runs-on: ubuntu-latest
-    outputs:
-      token: ${{ steps.generate-app-token.outputs.token }}
-      dummy: ${{ steps.dummy.outputs.dummy }}
-    steps:
-      - uses: actions/checkout@master
-      - id: list-repo-contents
-        run: ls
-      - run: echo ${{ github.action_path }}
-      - run: ls ${{ github.action_path }}
-      - id: generate-app-token
-        run: echo "::set-output name=token::$(${{ github.action_path }}/bin/appauth-linux)"
-        env:
-          APP_ID: ${{ inputs.app_id }}
-          INSTALLATION_ID: ${{ inputs.installation_id }}
-          PRIVATE_KEY: ${{ secrets.private_key }}
-      - id: dummy
-        run: echo "::set-output name=dummy::dummy"
+name: GH-App-Auth
+description: Generate an API token for a GitHub App
+inputs:
+  app_id:
+    required: true
+    type: string
+  installation_id:
+    required: true
+    type: string
+secrets:
+  private_key:
+    required: true
+outputs:
+  dummy:
+    description: "API token to use when authenticating as your GitHub app"
+    value: ${{ steps.dummy.outputs.dummy }}
+  token:
+    description: "API token to use when authenticating as your GitHub app"
+    value: ${{ steps.generate-app-token.outputs.token }}
+runs:
+  using: "composite"
+  steps:
+    - run: echo ${{ github.action_path }}
+    - run: ls ${{ github.action_path }}
+    - id: generate-app-token
+      run: echo "::set-output name=token::$(${{ github.action_path }}/bin/appauth-linux)"
+      env:
+        APP_ID: ${{ inputs.app_id }}
+        INSTALLATION_ID: ${{ inputs.installation_id }}
+        PRIVATE_KEY: ${{ secrets.private_key }}
+    - id: dummy
+      run: echo "::set-output name=dummy::dummy"
