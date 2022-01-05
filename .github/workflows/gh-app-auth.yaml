@@ -31,6 +31,6 @@ jobs:
         env:
           APP_ID: ${{ inputs.app_id }}
           INSTALLATION_ID: ${{ inputs.installation_id }}
-          PRIVATE_KEY: ${{ inputs.private_key }}
+          PRIVATE_KEY: ${{ secrets.private_key }}
       - id: dummy
         run: echo "::set-output name=dummy::dummy"
