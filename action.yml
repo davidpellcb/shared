@@ -11,9 +11,6 @@ inputs:
     required: true
     type: string
 outputs:
-  dummy:
-    description: "API token to use when authenticating as your GitHub app"
-    value: ${{ steps.dummy.outputs.dummy }}
   token:
     description: "API token to use when authenticating as your GitHub app"
     value: ${{ steps.generate-app-token.outputs.token }}
@@ -30,7 +27,4 @@ runs:
         APP_ID: ${{ inputs.app_id }}
         INSTALLATION_ID: ${{ inputs.installation_id }}
         PRIVATE_KEY: ${{ inputs.private_key }}
-      shell: bash
-    - id: dummy
-      run: echo "::set-output name=dummy::dummy"
       shell: bash
