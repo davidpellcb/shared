@@ -21,12 +21,16 @@ runs:
   using: "composite"
   steps:
     - run: echo ${{ github.action_path }}
+      shell: bash
     - run: ls ${{ github.action_path }}
+      shell: bash
     - id: generate-app-token
       run: echo "::set-output name=token::$(${{ github.action_path }}/bin/appauth-linux)"
       env:
         APP_ID: ${{ inputs.app_id }}
         INSTALLATION_ID: ${{ inputs.installation_id }}
         PRIVATE_KEY: ${{ inputs.private_key }}
+      shell: bash
     - id: dummy
       run: echo "::set-output name=dummy::dummy"
+      shell: bash
