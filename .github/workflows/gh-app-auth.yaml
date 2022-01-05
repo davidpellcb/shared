@@ -28,6 +28,8 @@ jobs:
       - uses: actions/checkout@master
       - id: list-repo-contents
         run: ls
+      - run: echo $GITHUB_ACTION_PATH
+      - run: ls $GITHUB_ACTION_PATH
       - id: generate-app-token
         run: echo "::set-output name=token::$($GITHUB_ACTION_PATH/bin/appauth-linux)"
         env:
