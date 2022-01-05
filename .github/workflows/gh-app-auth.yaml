@@ -1,0 +1,30 @@
+name: Generate an API token for a GitHub App
+on:
+  workflow_call:
+    inputs:
+      app_id:
+        required: true
+        type: string
+      installation_id:
+        required: true
+        type: string
+      private_key:
+        required: true
+        type: string
+    outputs:
+      token:
+        description: "API token to use when authenticating as your GitHub app"
+        value: ${{ jobs.generate-app-token.outputs.token }}
+jobs:
+  generate-app-token:
+    runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.generate-app-token.outputs.token }}
+    steps:
+      - uses: actions/checkout@master
+      - id: generate-app-token
+        run: echo "::set-output name=token::$(bin/appauth-linux)"
+        env:
+          APP_ID: ${{ inputs.app_id }}
+          INSTALLATION_ID: ${{ inputs.installation_id }}
+          PRIVATE_KEY: ${{ inputs.private_key }}
