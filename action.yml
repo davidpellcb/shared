@@ -7,9 +7,9 @@ inputs:
   installation_id:
     required: true
     type: string
-secrets:
   private_key:
     required: true
+    type: string
 outputs:
   dummy:
     description: "API token to use when authenticating as your GitHub app"
